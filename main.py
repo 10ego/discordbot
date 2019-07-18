@@ -34,7 +34,16 @@ async def on_message(message):
         await message.channel.send(f":speaking_head: Ping Ping Ping Ping Ping {at}")
 
     elif re.match(r"\!gif", message.content):
-        await message.channel.send(get_reddit('gif'))
+        switch=True
+        while switch is True:
+            link = get_reddit('gif')
+            if "gif" in link[-4:]:
+                await message.channel.send(link)
+                switch = False
+            
+    elif re.match(r"\!gif .*", message.content):
+        q_term = message.content[5:]
+        await message.channel.send(get_gfycats(q_term))
 
     elif re.match(r"\!duck", message.content):
         await message.channel.send(get_reddit('duckswithanimeeyes'))
