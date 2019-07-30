@@ -13,10 +13,10 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    print(f"{message.channel}: {message.author}: {message.author.name}: {message.content}")
+    #print(f"{message.channel}: {message.author}: {message.author.name}: {message.content}")
     
     if message.content=="!help":
-        help_msg = "!togethertube, !ping, !gif, !duck, !react, !waifu, !zoidberg"
+        help_msg = "!togethertube, !ping, !gif, !duck, !react, !waifu, !zoidberg, !got, !alan, !whattoplay"
         await message.channel.send(help_msg)
 
     elif message.content=="!togethertube":
@@ -33,7 +33,7 @@ async def on_message(message):
         at = re.search("\<\@\S+\>", message.content).group(0)
         await message.channel.send(f":speaking_head: Ping Ping Ping Ping Ping {at}")
 
-    elif re.match(r"\!gif", message.content):
+    elif re.fullmatch(r"\!gif", message.content):
         switch=True
         while switch is True:
             link = get_reddit('gif')
@@ -42,25 +42,34 @@ async def on_message(message):
                 switch = False
             
     elif re.match(r"\!gif .*", message.content):
-        q_term = message.content[5:]
+        q_term = message.content[5:].replace(" ", "+")
+        print(q_term)
         await message.channel.send(get_gfycats(q_term))
 
-    elif re.match(r"\!duck", message.content):
+    elif re.fullmatch(r"\!duck", message.content):
         await message.channel.send(get_reddit('duckswithanimeeyes'))
         
-    elif re.match(r"\!react", message.content):
+    elif re.fullmatch(r"\!react", message.content):
         await message.channel.send(get_reddit('reactiongifs'))
         
-    elif re.match(r"\!waifu", message.content):
+    elif re.fullmatch(r"\!waifu", message.content):
         await message.channel.send(get_gfycats('funimation+waifu+anime'))
         
-    elif re.match(r"\!zoidberg", message.content):
+    elif re.fullmatch(r"\!zoidberg", message.content):
         await message.channel.send(get_gfycats('zoidberg'))
         
-    elif re.match(r"\!got", message.content):
+    elif re.fullmatch(r"\!got", message.content):
         await message.channel.send(get_gfycats('game+of+thrones'))
 #    print(f'{message.channel}: {message.author}: {message.author.name}: {message.content}')
 
+    elif re.fullmatch("!alan", message.content):
+        await message.channel.send(get_gfycats("alan+groundhog", randomize=False, window=17))
+        
+    elif re.fullmatch("!whattoplay\s?\d*", message.content):
+        if len(message.content)>11:
+            player_size = int(message.content[12:])
+        else:
+            player_size = 0
+        await message.channel.send(get_games(player_size))
+        
 client.run(token.strip())
-
-
