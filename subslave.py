@@ -62,9 +62,9 @@ def get_games(limit=0):
              "Terraria":{"player_limit":8}
              }
     if limit == 0:
-        rand = random.randrange(0, len(games))
+        rand = random.randrange(0, len(games)-1)
         return list(games.keys())[rand]
     else:
         games = {k:v['player_limit'] for (k,v) in games.items() if v['player_limit']>=limit}
-        rand = random.randrange(0, limit-1)
+        rand = random.randrange(0, len(games)-1)
         return list(games.keys())[rand]
