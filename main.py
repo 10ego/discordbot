@@ -2,6 +2,7 @@ import requests
 import discord
 import re
 from subslave import *
+import random
 
 token = open('discordtoken.txt', 'r').readline()
 #print(token)
@@ -16,7 +17,7 @@ async def on_message(message):
     #print(f"{message.channel}: {message.author}: {message.author.name}: {message.content}")
     
     if message.content=="!help":
-        help_msg = "!togethertube, !ping, !gif, !duck, !react, !waifu, !zoidberg, !got, !alan, !whattoplay"
+        help_msg = "!togethertube, !ping, !gif {keyword}, !duck, !react, !waifu, !zoidberg, !got, !alan, !whattoplay {max player #}, !rand {number1 number2}"
         await message.channel.send(help_msg)
 
     elif message.content=="!togethertube":
@@ -40,6 +41,9 @@ async def on_message(message):
             if "gif" in link[-4:]:
                 await message.channel.send(link)
                 switch = False
+    elif re.fullmatch(r"\!rand \d+ \d+", message.content):
+        random_numbs = re.findall(r"\d+", message.content)
+        await message.channel.send("Randomly chosen number: {}".format(random.randrange(int(min(random_numbs)), int(max(random_numbs)))))
             
     elif re.match(r"\!gif .*", message.content):
         q_term = message.content[5:].replace(" ", "+")
@@ -73,3 +77,5 @@ async def on_message(message):
         await message.channel.send(get_games(player_size))
         
 client.run(token.strip())
+
+
