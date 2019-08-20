@@ -68,3 +68,9 @@ def get_games(limit=0):
         games = {k:v['player_limit'] for (k,v) in games.items() if v['player_limit']>=limit}
         rand = random.randrange(0, len(games)-1)
         return list(games.keys())[rand]
+      
+def get_togethertube():
+    with requests.session() as s:
+        r = s.post('https://www.watch2gether.com/rooms/create', headers={'Connection':'close'})
+        if r.status_code==200:
+            return r.url
