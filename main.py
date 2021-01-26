@@ -1,7 +1,7 @@
 import requests
 import discord
 import re
-from subslave import *
+from utils import *
 import random
 
 token = open('discordtoken.txt', 'r').readline()
